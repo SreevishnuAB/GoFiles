@@ -19,18 +19,24 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&file)
 	log.Println(file)
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		// TODO add proper error response
+		return
 	}
 
 	fileJson, err := json.Marshal(file)
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		// TODO add proper error response
+		return
 	}
 	log.Println(file.Name, fileJson)
 
 	wd, err := os.Getwd()
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		// TODO add proper error response
+		return
 	}
 	log.Println("working directory = ", wd)
 	dirPath := filepath.Join(wd, FileDir)
@@ -38,21 +44,31 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		log.Println("Directory does not exist. Creating directory")
 		err := os.Mkdir(dirPath, 0766)
 		if err != nil {
-			log.Panic(err)
+			log.Println(err)
+			// TODO add proper error response
+			return
 		}
-	} else {
-		log.Println("Directory exists")
+		log.Println("Directory created")
+	}
+	filePath := filepath.Join(dirPath, file.Name)
+	log.Println("File path = ", filePath)
+	if _, err := os.Stat(filePath); !errors.Is(err, os.ErrNotExist) {
+		log.Println("File with name", file.Name, "already exists")
+		// TODO add proper error response
+		return
 	}
 
-	filePath := filepath.Join(dirPath, file.Name)
-	log.Println(filePath)
 	err = os.WriteFile(filePath, fileJson, 0666)
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		// TODO add proper error response
+		return
 	}
 	rw.WriteHeader(201)
 	err = json.NewEncoder(rw).Encode(map[string]string{"status": "File created"})
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		// TODO add proper error response
+		return
 	}
 }

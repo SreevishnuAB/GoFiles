@@ -17,7 +17,8 @@ func Test(rw http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path)
 	err := json.NewEncoder(rw).Encode(map[string]string{"status": "Hello world"})
 	if err != nil {
-		log.Panic(err)
+		log.Println(err)
+		return
 	}
 }
 
