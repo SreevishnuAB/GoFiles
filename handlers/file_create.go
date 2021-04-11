@@ -8,10 +8,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"s.ab/gofiles/constants"
 	"s.ab/gofiles/models"
 )
-
-const FileDir = "files"
 
 func CreateFile(rw http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
@@ -40,7 +39,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Println("working directory = ", wd)
-	dirPath := filepath.Join(wd, FileDir)
+	dirPath := filepath.Join(wd, constants.FileDir)
 	if _, err := os.Stat(dirPath); errors.Is(err, os.ErrNotExist) {
 		log.Println("Directory does not exist. Creating directory")
 		err := os.Mkdir(dirPath, 0766)

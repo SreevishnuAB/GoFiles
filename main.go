@@ -9,10 +9,6 @@ import (
 	"s.ab/gofiles/handlers"
 )
 
-func GetFile(rw http.ResponseWriter, r *http.Request) {
-
-}
-
 func Test(rw http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path)
 	err := json.NewEncoder(rw).Encode(map[string]string{"status": "Hello world"})
@@ -26,6 +22,6 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", Test).Methods("GET")
 	router.HandleFunc("/createFile", handlers.CreateFile).Methods("POST")
-	router.HandleFunc("/readFile/{fileName}", GetFile).Methods("GET")
+	router.HandleFunc("/readFile/{fileName}", handlers.GetFile).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", router))
 }
