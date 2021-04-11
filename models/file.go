@@ -1,7 +1,7 @@
 package models
 
 type File struct {
-	Name      string `json:"name"`
-	Content   string `json:"content,omitempty"`
-	CreatedOn string `json:"createdOn"`
+	Name      string      `json:"name"`
+	Content   interface{} `json:"content,omitempty"`
+	CreatedOn string      `json:"createdOn"`
 }

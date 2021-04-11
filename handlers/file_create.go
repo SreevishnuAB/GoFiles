@@ -23,8 +23,9 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-
-	fileJson, err := json.Marshal(file)
+	fileArr := []interface{}{file.Content}
+	fileJson, err := json.Marshal(fileArr)
+	log.Println(fileJson)
 	if err != nil {
 		log.Println(err)
 		// TODO add proper error response
