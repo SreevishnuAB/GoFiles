@@ -1,4 +1,4 @@
-module s.ab/go-files
+module s.ab/gofiles
 
 go 1.16
 
