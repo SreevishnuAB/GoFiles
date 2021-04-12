@@ -1,6 +1,7 @@
 package v1handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"s.ab/gofiles/constants"
+	"s.ab/gofiles/models"
 )
 
 func GetFile(rw http.ResponseWriter, r *http.Request) {
@@ -36,5 +38,17 @@ func GetFile(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println(data)
+	var content []interface{}
+	err = json.Unmarshal(data, &content)
+	if err != nil {
+		log.Println(err)
+		// TODO proper error response
+		return
+	}
+	log.Println(content)
 
+	var file models.File
+	file.Name = fileName
+	file.Content = content
+	// err := json.
 }

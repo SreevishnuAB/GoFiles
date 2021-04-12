@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"s.ab/gofiles/constants"
+	"s.ab/gofiles/helpers"
 	"s.ab/gofiles/models"
 )
 
@@ -64,11 +65,10 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-	rw.WriteHeader(http.StatusCreated)
-	err = json.NewEncoder(rw).Encode(map[string]string{"status": "File created"})
+	err = helpers.CreateResponse(rw, http.StatusCreated, map[string]string{"status": "File created"})
+
 	if err != nil {
 		log.Println(err)
-		// TODO add proper error response
-		return
+		helpers.CreateResponse(rw, http.StatusInternalServerError, map[string]string{"error": "Something went wrong"})
 	}
 }
