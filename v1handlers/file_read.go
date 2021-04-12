@@ -1,6 +1,7 @@
 package v1handlers
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -19,27 +20,21 @@ func GetFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO proper error response
 		return
 	}
-
+	fileName = fileName + ".json"
 	filePath := filepath.Join(wd, constants.FileDir, fileName)
 	log.Println("Queried filepath = ", filePath)
-	// file, err := os.Stat(filePath)
-	// if err != nil {
-	// 	if errors.Is(err, os.ErrNotExist){
-	// 		log.Println("Requested file not found")
-	// 		// TODO proper error response
-	// 	} else {
-	// 		log.Println(err)
-	// 	}
-	// 	return
-	// }
 
-	// log.Println("File details = ", file)
-	// TODO check if ReadFile can replace Stat
 	data, err := os.ReadFile(filePath)
-	log.Println(data)
 	if err != nil {
-		log.Println(err)
+		if errors.Is(err, os.ErrNotExist) {
+			log.Println("Requested file", fileName, " not found")
+			// TODO proper error response
+		} else {
+			log.Println(err)
+		}
 		return
 	}
+
+	log.Println(data)
 
 }

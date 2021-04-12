@@ -22,8 +22,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-	fileArr := []interface{}{file.Content}
-	fileJson, err := json.Marshal(fileArr)
+	fileJson, err := json.Marshal(file.Content)
 	log.Println(fileJson)
 	if err != nil {
 		log.Println(err)
@@ -50,7 +49,8 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("Directory created")
 	}
-	filePath := filepath.Join(dirPath, file.Name)
+	fileName := file.Name + ".json"
+	filePath := filepath.Join(dirPath, fileName)
 	log.Println("File path = ", filePath)
 	if _, err := os.Stat(filePath); !errors.Is(err, os.ErrNotExist) {
 		log.Println("File with name", file.Name, "already exists")
