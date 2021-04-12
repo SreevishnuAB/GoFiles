@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"s.ab/gofiles/handlers"
+	"s.ab/gofiles/v1handlers"
 )
 
 func Test(rw http.ResponseWriter, r *http.Request) {
@@ -21,7 +21,7 @@ func Test(rw http.ResponseWriter, r *http.Request) {
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", Test).Methods("GET")
-	router.HandleFunc("/createFile", handlers.CreateFile).Methods("POST")
-	router.HandleFunc("/readFile/{fileName}", handlers.GetFile).Methods("GET")
+	router.HandleFunc("/createFile", v1handlers.CreateFile).Methods("POST")
+	router.HandleFunc("/readFile/{fileName}", v1handlers.GetFile).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", router))
 }
