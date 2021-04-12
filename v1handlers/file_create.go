@@ -55,7 +55,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 	log.Println("File path = ", filePath)
 	if _, err := os.Stat(filePath); !errors.Is(err, os.ErrNotExist) {
 		log.Println("File with name", file.Name, "already exists")
-		helpers.CreateResponse(rw, http.StatusConflict, map[string]string{"error": "File with name" + file.Name + "already exists"})
+		helpers.CreateResponse(rw, http.StatusConflict, map[string]string{"error": "File with name " + file.Name + " already exists"})
 		return
 	}
 
