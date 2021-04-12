@@ -23,5 +23,6 @@ func main() {
 	router.HandleFunc("/", Test).Methods("GET")
 	router.HandleFunc("/createFile", v1handlers.CreateFile).Methods("POST")
 	router.HandleFunc("/readFile/{fileName}", v1handlers.GetFile).Methods("GET")
+	router.HandleFunc("/modifyFile/{fileName}", v1handlers.ModifyFile).Methods("PUT")
 	log.Fatal(http.ListenAndServe(":5000", router))
 }

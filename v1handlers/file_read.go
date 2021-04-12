@@ -34,6 +34,7 @@ func GetFile(rw http.ResponseWriter, r *http.Request) {
 			// TODO proper error response
 		} else {
 			log.Println(err)
+			// TODO proper error error response
 		}
 		return
 	}
