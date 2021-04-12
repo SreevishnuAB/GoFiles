@@ -1,4 +1,4 @@
-package handlers
+package v1handlers
 
 import (
 	"encoding/json"
@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"s.ab/gofiles/constants"
+	"s.ab/gofiles/helpers"
 	"s.ab/gofiles/models"
 )
 
@@ -22,8 +23,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-	fileArr := []interface{}{file.Content}
-	fileJson, err := json.Marshal(fileArr)
+	fileJson, err := json.Marshal(file.Content)
 	log.Println(fileJson)
 	if err != nil {
 		log.Println(err)
@@ -50,7 +50,8 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("Directory created")
 	}
-	filePath := filepath.Join(dirPath, file.Name)
+	fileName := file.Name + ".json"
+	filePath := filepath.Join(dirPath, fileName)
 	log.Println("File path = ", filePath)
 	if _, err := os.Stat(filePath); !errors.Is(err, os.ErrNotExist) {
 		log.Println("File with name", file.Name, "already exists")
@@ -64,11 +65,10 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-	rw.WriteHeader(201)
-	err = json.NewEncoder(rw).Encode(map[string]string{"status": "File created"})
+	err = helpers.CreateResponse(rw, http.StatusCreated, map[string]string{"status": "File created"})
+
 	if err != nil {
-		log.Println(err)
-		// TODO add proper error response
-		return
+		log.Println("Error creating response body", err)
+		helpers.CreateResponse(rw, http.StatusInternalServerError, map[string]string{"error": "Something went wrong"})
 	}
 }
