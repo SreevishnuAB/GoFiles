@@ -64,7 +64,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO add proper error response
 		return
 	}
-	rw.WriteHeader(201)
+	rw.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(rw).Encode(map[string]string{"status": "File created"})
 	if err != nil {
 		log.Println(err)
