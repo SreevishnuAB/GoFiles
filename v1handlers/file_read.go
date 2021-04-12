@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"s.ab/gofiles/constants"
+	"s.ab/gofiles/helpers"
 	"s.ab/gofiles/models"
 )
 
@@ -50,5 +51,9 @@ func GetFile(rw http.ResponseWriter, r *http.Request) {
 	var file models.File
 	file.Name = fileName
 	file.Content = content
-	// err := json.
+	err = helpers.CreateResponse(rw, http.StatusOK, file)
+	if err != nil {
+		log.Println("Error creating response body", err)
+		helpers.CreateResponse(rw, http.StatusInternalServerError, map[string]string{"error": "Something went wrong"})
+	}
 }

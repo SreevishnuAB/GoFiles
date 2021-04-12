@@ -68,7 +68,7 @@ func CreateFile(rw http.ResponseWriter, r *http.Request) {
 	err = helpers.CreateResponse(rw, http.StatusCreated, map[string]string{"status": "File created"})
 
 	if err != nil {
-		log.Println(err)
+		log.Println("Error creating response body", err)
 		helpers.CreateResponse(rw, http.StatusInternalServerError, map[string]string{"error": "Something went wrong"})
 	}
 }
