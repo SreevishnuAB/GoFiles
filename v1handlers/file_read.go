@@ -23,8 +23,8 @@ func GetFile(rw http.ResponseWriter, r *http.Request) {
 		// TODO proper error response
 		return
 	}
-	fileName = fileName + ".json"
-	filePath := filepath.Join(wd, constants.FileDir, fileName)
+	fileNameWExt := fileName + ".json"
+	filePath := filepath.Join(wd, constants.FileDir, fileNameWExt)
 	log.Println("Queried filepath = ", filePath)
 
 	data, err := os.ReadFile(filePath)

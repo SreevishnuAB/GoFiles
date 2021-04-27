@@ -24,5 +24,6 @@ func main() {
 	router.HandleFunc("/createFile", v1handlers.CreateFile).Methods("POST")
 	router.HandleFunc("/readFile/{fileName}", v1handlers.GetFile).Methods("GET")
 	router.HandleFunc("/modifyFile/{fileName}", v1handlers.ModifyFile).Methods("PUT")
+	log.Println("Server running on port 5000")
 	log.Fatal(http.ListenAndServe(":5000", router))
 }
